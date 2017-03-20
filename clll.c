@@ -6,7 +6,6 @@ struct Clll {
   struct Clll *next;
   struct Clll *prev;
   void *data;
-  size_t len;
 };
 
 
@@ -16,16 +15,14 @@ struct Clll *new_clll(){
     head->next = head;
     head->prev = head;
     head->data = NULL;
-    head->len = 0;
   }
   return head;
 }
 
 
-int push(struct Clll *head, void *data, size_t len){
+int push(struct Clll *head, void *data){
   if (head->data == NULL){
     head->data = data;
-    head->len = len;
     return 0;
   }
   struct Clll *new = malloc(sizeof(struct Clll));
@@ -33,7 +30,6 @@ int push(struct Clll *head, void *data, size_t len){
     new->next = head;
     new->prev = head->prev;
     new->data = data;
-    new->len = len;
 
     head->prev->next = new;
     head->prev = new;
@@ -44,16 +40,14 @@ int push(struct Clll *head, void *data, size_t len){
   }
 }
 
-int pop(struct Clll *head, void **data, size_t *len){
+void * pop(struct Clll *head){
   if (head->data == NULL){
-    return -1;
+    return NULL;
   }
-  *data = head->prev->data;
-  *len = head->prev->len;
+  void * data = head->prev->data;
 
   if (head->next == head){
     head->data = NULL;
-    head->len = 0;
   }else{
     if (head->next == head->prev){
       free(head->prev);
@@ -66,13 +60,12 @@ int pop(struct Clll *head, void **data, size_t *len){
       free(to_free);
     }
   }
-  return 0;
+  return data;
 }
 
-int fpush(struct Clll **head, void *data, size_t len){
+int fpush(struct Clll **head, void *data){
   if ((*head)->data == NULL){
     (*head)->data = data;
-    (*head)->len = len;
 
     return 0;
   }
@@ -83,7 +76,6 @@ int fpush(struct Clll **head, void *data, size_t len){
   new->next = *head;
   new->prev = (*head)->prev;
   new->data = data;
-  new->len = len;
 
   (*head)->prev->next = new;
   (*head)->prev = new;
@@ -93,16 +85,14 @@ int fpush(struct Clll **head, void *data, size_t len){
   return 0;
 }
 
-int fpop(struct Clll **head, void **data, size_t *len){
+void * fpop(struct Clll **head){
   if((*head)->data == NULL){
-    return -1;
+    return NULL;
   }
-  *data = (*head)->data;
-  *len = (*head)->len;
+  void * data = (*head)->data;
 
   if ((*head)->next == *head){
     (*head)->data = NULL;
-    (*head)->len = 0;
   }else{
     struct Clll *to_free = *head;
     if ((*head)->next == (*head)->prev){
@@ -116,7 +106,7 @@ int fpop(struct Clll **head, void **data, size_t *len){
     }
     free(to_free);
   }
-  return 0;
+  return data;
 }
 
 

@@ -55,24 +55,23 @@ struct BintreeCtx * new_bintree_ctx(struct Bintree *bt, unsigned int nested_lvl)
 void print_bintree(struct Bintree *bt){
   struct Clll *stack = new_clll();
   struct BintreeCtx *root, *current, *l, *r;
-  size_t useless = 0;
 
   root = new_bintree_ctx(bt, 0);
-  push(stack, root, sizeof(struct BintreeCtx));
+  push(stack, root);
 
   while (!isempty(stack)){
-    fpop(&stack, (void **) &current, &useless);
+    current = fpop(&stack);
     for (unsigned int i = 0; i<current->nested_lvl; i++){
       printf("\t");
     }
     printf("%u\n", current->bt->key);
     if (current->bt->left != NULL){
       l = new_bintree_ctx(current->bt->left, current->nested_lvl+1);
-      push(stack, (void *) l, sizeof(struct BintreeCtx));
+      push(stack, l);
     }
     if (current->bt->right != NULL){
       r = new_bintree_ctx(current->bt->right, current->nested_lvl+1);
-      push(stack, (void *) r, sizeof(struct BintreeCtx));
+      push(stack, r);
     }
     free(current);
   }
