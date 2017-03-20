@@ -118,3 +118,8 @@ int fpop(struct Clll **head, void **data, size_t *len){
   }
   return 0;
 }
+
+
+int isempty(struct Clll *head){
+  return head->data == NULL;
+}
