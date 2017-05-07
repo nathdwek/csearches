@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "clll.h"
 
@@ -112,4 +113,14 @@ void * fpop(struct Clll **head){
 
 int isempty(struct Clll *head){
   return head->data == NULL;
+}
+
+
+void print_clll(struct Clll * head){
+  printf("Clll@%p\n", head);
+  struct Clll * current = head;
+  do{
+    printf("%p - %p - %p - %p\n", current->prev, current, current->next, current->data);
+    current = current->next;
+  }while(current != head);
 }
